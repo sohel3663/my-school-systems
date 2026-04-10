@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart School ERP - Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .active-link { background: #1abc9c; color: white; border-radius: 8px; }
+        .section { display: none; }
+        .active-section { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 flex">
+
+    <aside class="w-64 h-screen bg-slate-900 text-white fixed p-5">
+        <h1 class="text-2xl font-bold text-teal-400 mb-10 text-center">SmartSchool</h1>
+        <nav class="space-y-2">
+            <button onclick="showSection('dash')" class="w-full text-left p-3 hover:bg-slate-700 transition" id="btn-dash">🏠 Dashboard</button>
+            <button onclick="showSection('students')" class="w-full text-left p-3 hover:bg-slate-700 transition" id="btn-students">👨‍🎓 Students</button>
+            <button onclick="showSection('exams')" class="w-full text-left p-3 hover:bg-slate-700 transition" id="btn-exams">📊 Results</button>
+            <button onclick="showSection('finance')" class="w-full text-left p-3 hover:bg-slate-700 transition" id="btn-finance">💰 Fees</button>
+        </nav>
+    </aside>
+
+    <main class="ml-64 w-full p-8">
+        
+        <section id="dash" class="section active-section">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">School Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-8 border-blue-500">
+                    <h3 class="text-gray-500">Total Students</h3>
+                    <p class="text-4xl font-bold">1,250</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-8 border-green-500">
+                    <h3 class="text-gray-500">Today's Attendance</h3>
+                    <p class="text-4xl font-bold">96%</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-8 border-orange-500">
+                    <h3 class="text-gray-500">Monthly Fees</h3>
+                    <p class="text-4xl font-bold">৳ 4.5L</p>
+                </div>
+            </div>
+            <div class="mt-10 bg-white p-8 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-gray-700">Recent Notices</h3>
+                <ul class="list-disc pl-5 text-gray-600 space-y-2">
+                    <li>School closed on Friday for National Holiday.</li>
+                    <li>Term 1 Results will be published on April 15th.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="students" class="section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Student Directory</h2>
+                <button onclick="addStudentPrompt()" class="bg-teal-500 text-white px-6 py-2 rounded-lg shadow hover:bg-teal-600">+ Add New</button>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-4 border-b">ID</th>
+                            <th class="p-4 border-b">Name</th>
+                            <th class="p-4 border-b">Class</th>
+                            <th class="p-4 border-b">Status</th>
+                            <th class="p-4 border-b">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-table-body">
+                        <tr>
+                            <td class="p-4 border-b">#S1001</td>
+                            <td class="p-4 border-b font-medium">Sohel Rana</td>
+                            <td class="p-4 border-b">10 (A)</td>
+                            <td class="p-4 border-b"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Active</span></td>
+                            <td class="p-4 border-b text-red-500 cursor-pointer">Delete</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="exams" class="section text-center p-20">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Results Management</h2>
+            <p class="text-gray-500">Result publish and Marksheet generation module.</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button class="bg-blue-600 text-white px-6 py-2 rounded">Upload Marks</button>
+                <button class="border border-blue-600 text-blue-600 px-6 py-2 rounded">Print Marksheet</button>
+            </div>
+        </section>
+
+        <section id="finance" class="section">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Fees Collection</h2>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="p-4 bg-gray-50 rounded">
+                        <p class="text-sm text-gray-500">Total Collected</p>
+                        <h4 class="text-2xl font-bold text-green-600">৳ 4,50,000</h4>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded">
+                        <p class="text-sm text-gray-500">Pending Dues</p>
+                        <h4 class="text-2xl font-bold text-red-600">৳ 25,000</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Section Switching Logic
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+            // Show target
+            document.getElementById(sectionId).classList.add('active-section');
+            
+            // UI Button Active State
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-link'));
+            document.getElementById('btn-' + sectionId).classList.add('active-link');
+        }
+
+        // Student Add Function
+        function addStudentPrompt() {
+            let name = prompt("Enter Student Name:");
+            let cls = prompt("Enter Class:");
+            if(name && cls) {
+                let id = "S" + Math.floor(1000 + Math.random() * 9000);
+                let table = document.getElementById('student-table-body');
+                table.innerHTML += `
+                    <tr>
+                        <td class="p-4 border-b">#${id}</td>
+                        <td class="p-4 border-b font-medium">${name}</td>
+                        <td class="p-4 border-b">${cls}</td>
+                        <td class="p-4 border-b"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Active</span></td>
+                        <td class="p-4 border-b text-red-500 cursor-pointer" onclick="this.parentElement.remove()">Delete</td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Default Active Button
+        document.getElementById('btn-dash').classList.add('active-link');
+    </script>
+</body>
+</html>
